@@ -22,4 +22,5 @@
       border-radius: 2px; }
   .Container .firstCircle {
     transform-origin: 50% 50%;
-    transform: rotate(0deg) translate(-73px, 117px); }
+    transform: translate(-73px, 60px) scale(0.8);
+    transition: 2s; }

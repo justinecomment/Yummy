@@ -1,0 +1,14 @@
+.SelectFruit{
+  .previous, .next{
+    z-index: 1;
+    cursor: pointer;
+  }
+
+  .firstCircle{
+    z-index: 0;
+  }
+}
+
+
+
+

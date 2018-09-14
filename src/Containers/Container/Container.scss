@@ -2,33 +2,18 @@
   background-color: #f66875;
   height: 700px;
   width: 600px;
-  box-shadow: 2px 5px 5px #b83642;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   position: relative;
-    
-  .button{
-    display: flex;
-    flex-direction: row;
-    position: absolute;
-    justify-content: space-between;
-    width: 100%;
+  box-shadow: 2px 5px 5px #b83642;
 
-    button{
-      margin: 0px 10px;
-      padding: 15px;
-      background-color: #c8c8c8;
-      border: none;
-      color: #515151;
-      border-radius: 2px;
-    } 
+  svg:not(.rondBlanc){
+    z-index: 2;
   }
 
-  .firstCircle{
-    // transform-origin: 50% 50%;
-    // transform: translate(-20px,30px) scale(0.8) !important;
-    // transition: 1s;
+  .rondBlanc{
+    z-index: 0;
+    position: absolute;
   }
 }
 

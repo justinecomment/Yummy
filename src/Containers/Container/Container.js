@@ -6,9 +6,10 @@ class Container extends Component {
    state={
     liste: [],
     path: [],
-    radiusCircle: 800,
+    radiusCircle: 700,
     degres : -90,
-    centerElement : 0
+    centerElement : 0,
+    rotate: 90
   }
 
   componentDidMount() {
@@ -28,52 +29,23 @@ class Container extends Component {
   }
 
   next = () => {
-    // let newListe = [];
-
-    let newDegres = this.state.degres -= 45
+    let newDegres = this.state.degres -= 45;
+    let newRotate = this.state.rotate += 45;
     this.setState({
       degres: newDegres,
-      centerElement :this.state.centerElement += 1
+      centerElement :this.state.centerElement += 1,
+      rotate: newRotate
     })
-
-    // for (let i = 0; i < this.state.liste.length; i++) {
-    //   let newIndex = i + 1;
-    //   if (newIndex > this.state.liste.length - 1) {
-    //     newIndex = 0
-    //   }
-    //   newListe.push(this.state.liste[newIndex]);
-    // }
-    // this.update(newListe);
   }
 
   previous = () => {
-    // let newListe = [];
-
-    let newDegres = this.state.degres += 45
+    let newDegres = this.state.degres += 45;
+    let newRotate = this.state.rotate -= 45;
     this.setState({
       degres: newDegres,
-      centerElement : this.state.centerElement -= 1
+      centerElement : this.state.centerElement -= 1,
     })
-    
-    // for(let i = 0; i < this.state.liste.length; i++){
-    //   let newIndex = i - 1;
-    //   if (newIndex < 0) {
-    //     newIndex = this.state.liste.length -1
-    //   }
-    //   newListe.push(this.state.liste[newIndex]);
-    // }
-
-    // this.update(newListe);
   }
-
-  // update = (newListe) => {
-  //   this.setState({
-  //     liste : newListe,
-  //     anim : true
-  //   })
-    
-  //   this.drawCircle(newListe);
-  // }
 
   drawCircle = (newListe) =>  {
     let reference;
@@ -121,8 +93,13 @@ class Container extends Component {
   render() {
     let animRotate = {
       transform: `rotate(${this.state.degres}deg)`,
-      transformOrigin: '50% 50%',
+      transformOrigin: "50% 50%",
       transition: '1s'
+    }
+    let monstyle={
+      transform: `rotate(${this.state.rotate}deg)`,
+      transformOrigin: '50% 50%',
+      transition: '1s',
     }
 
     return (
@@ -136,7 +113,7 @@ class Container extends Component {
           </button>
         </div>
 
-        <svg height="600" width="600">
+        <svg height="600" width="600" >
           <circle cx="300" cy="500" r="400" fill="#fff" />
           <g className="firstCircle" style={animRotate}>
             {this.state.liste.map((item, key) => {  
@@ -155,8 +132,8 @@ class Container extends Component {
               }
 
               return (
-                <g key={key} transform={`scale(0.3) translate(${item.x},${item.y})`} >
-                  <g id="monGroup" className="monstyle">
+                <g key={key}  transform={`scale(0.3) translate(${item.x},${item.y})`}>
+                  <g style={monstyle}>
                   {pathComplet}
                   </g>
                 </g>

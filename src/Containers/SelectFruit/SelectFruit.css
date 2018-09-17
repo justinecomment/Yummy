@@ -1,6 +1,0 @@
-.SelectFruit .previous, .SelectFruit .next {
-  z-index: 1;
-  cursor: pointer; }
-
-.SelectFruit .firstCircle {
-  z-index: 0; }

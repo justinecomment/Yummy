@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
-import jsonFruits from '../../Assets/svgFruits.json';
+// import jsonFruits from '../../Assets/svgFruits.json';
 import './SelectFruit.css';
 
 class SelectFruit extends Component {
    state={
     liste: [],
     path: [],
-    radiusCircle: 700,
-    degres : -90,
     centerElement : 0,
-    rotate: 90
+    radiusCircle: 900,
+    rotateItem: 90,
+    rotateCircle : -90
   }
 
   componentDidMount() {
@@ -29,24 +29,24 @@ class SelectFruit extends Component {
   }
 
   next = () => {
-    let newDegres = this.state.degres -= 45;
-    let newRotate = this.state.rotate += 45;
-    let newCurrentElement = this.state.centerElement += 1
+    let newRotateCircle = this.state.rotateCircle -= 360 / this.state.liste.length;
+    let newRotate = this.state.rotateItem += 360 / this.state.liste.length;
+    let newCenterElement = this.state.centerElement += 1
 
     this.setState({
-      degres: newDegres,
-      centerElement : newCurrentElement,
-      rotate: newRotate
+      rotateCircle: newRotateCircle,
+      centerElement : newCenterElement,
+      rotateItem: newRotate
     })
   }
 
   previous = () => {
-    let newDegres = this.state.degres += 45;
-    let newRotate = this.state.rotate -= 45;
+    let newRotateCircle = this.state.rotateCircle += 360 / this.state.liste.length;
+    let newRotate = this.state.rotateItem -= 360 / this.state.liste.length;
     let newCurrentElement = this.state.centerElement -= 1
 
     this.setState({
-      degres: newDegres,
+      rotateCircle: newRotateCircle,
       centerElement : newCurrentElement,
     })
    }
@@ -56,37 +56,34 @@ class SelectFruit extends Component {
     let circleRadius = this.state.radiusCircle;
     let circleSize = circleRadius * 2;
     let color;
+    let stroke;
     let finalFruit = {};
     let svgPath = [];
     let angle = 0;
-    let initialX = 0;
-    let initialY = 0;
     let x;
     let y;
     let finalListe = [];
 
     if(this.state.liste.length <= 0){
-      reference = jsonFruits;
+      reference = this.props.item;
     } else{
       reference = newListe;
     }
 
     for (let i in reference) {
-      if(reference[i].x){
-        initialX = reference[i].x
-      }
-      if(reference[i].y){
-        initialY = reference[i].y
-      }
       color = reference[i].color;
+
+      if(reference[i].stroke){
+        stroke = reference[i].stroke;
+      }
+      
       svgPath = reference[i].svgPath;
       angle = (i / ( reference.length / 2)) * Math.PI;
       x = (circleRadius * Math.cos(angle)) + (circleSize / 2);
       y = (circleRadius * Math.sin(angle)) + (circleSize / 2);
-      finalFruit = {svgPath, color, initialX, initialY, x, y};
+      finalFruit = {svgPath, color,stroke, x, y, angle};
       finalListe.push(finalFruit);
       finalListe.concat(finalFruit)
-      
     }
 
     this.setState({
@@ -96,12 +93,12 @@ class SelectFruit extends Component {
 
   render() {
     let animRotate = {
-      transform: `rotate(${this.state.degres}deg)`,
-      transformOrigin: "50% 50%",
-      transition: '1s',
+      transform: `rotate(${this.state.rotateCircle}deg)`,
+      transformOrigin: "60% 60%",
+      transition: '1s'
     }
     let rotateItem={
-      transform: `rotate(${this.state.rotate}deg)`,
+      transform: `rotate(${this.state.rotateItem}deg)`,
       transformOrigin: '50% 50%',
       transition: '1s',
     }
@@ -111,20 +108,20 @@ class SelectFruit extends Component {
     }
 
     return (
-      <svg className="SelectFruit" height="600" width="600" viewBox="0 -200 600 600"> 
-        {/* <circle cx="300" cy="500" r="400" fill="#fff" />  */}
+      <svg className="SelectFruit" height="600" width="600" viewBox="0 0 600 600"> 
         <g className="firstCircle" style={animRotate}>
           {this.state.liste.map((item, key) => {  
             let color = "#D0D0D0";
             let pathComplet = [];
-            
+            let stroke= item.stroke;
+
             if (key === this.state.centerElement) {
               color = item.color;
             }
             
             for (let index in item.svgPath) {
               let path = (
-                <path fill={color} d={item.svgPath[index].d} key={index} />
+                <path fill={color} stroke={stroke} stroke-width="6" d={item.svgPath[index].d} key={index} />
               );
               pathComplet.push(path);
             }

@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-// import jsonFruits from '../../Assets/svgFruits.json';
-import './SelectFruit.css';
+import './SelectItem.css';
+import Snap from 'snapsvg-cjs';
 
-class SelectFruit extends Component {
+class SelectItem extends Component {
    state={
     liste: [],
     path: [],
@@ -25,7 +25,7 @@ class SelectFruit extends Component {
       this.setState({
         centerElement : 0
       })  
-    } 
+    }   
   }
 
   next = () => {
@@ -91,6 +91,7 @@ class SelectFruit extends Component {
     })
   }
 
+
   render() {
     let animRotate = {
       transform: `rotate(${this.state.rotateCircle}deg)`,
@@ -107,6 +108,8 @@ class SelectFruit extends Component {
       cursor: 'pointer',
     }
 
+    
+    
     return (
       <svg className="SelectFruit" height="600" width="600" viewBox="0 0 600 600"> 
         <g className="firstCircle" style={animRotate}>
@@ -117,18 +120,41 @@ class SelectFruit extends Component {
 
             if (key === this.state.centerElement) {
               color = item.color;
+              
+              if(this.props.clicked === "click1"){
+                let svg = Snap.select('#monsvg1');
+                let group = svg.select("#groupItem" + this.state.centerElement);
+                let paths = group.selectAll("#path");
+                let circle = svg.path("M 250, 200 m -75, 0 a 75,75 0 1,0 150,0 a 75,75 0 1,0 -150,0");
+                circle.attr({ opacity: 0 })
+                paths.animate({ d: circle }, 1000);  
+              } else if (this.props.clicked === "click2"){
+                let svg = Snap.select('#monsvg2');
+                let group = svg.select("#groupItem" + this.state.centerElement);
+                let paths = group.selectAll("#path");
+                let circle = svg.path("M 250, 200 m -75, 0 a 75,75 0 1,0 150,0 a 75,75 0 1,0 -150,0");
+                circle.attr({ opacity: 0 })
+                paths.animate({ d: circle }, 1000);  
+              } else if (this.props.clicked === "click3") {
+                let svg = Snap.select('#monsvg3');
+                let group = svg.select("#groupItem" + this.state.centerElement);
+                let paths = group.selectAll("#path");
+                let circle = svg.path("M 250, 200 m -75, 0 a 75,75 0 1,0 150,0 a 75,75 0 1,0 -150,0");
+                circle.attr({ opacity: 0 })
+                paths.animate({ d: circle }, 1000);  
+              }
             }
-            
+
             for (let index in item.svgPath) {
               let path = (
-                <path fill={color} stroke={stroke} stroke-width="6" d={item.svgPath[index].d} key={index} />
+                <path id={`path`} fill={color} stroke={stroke} strokeWidth="6" d={item.svgPath[index].d} key={index} />
               );
               pathComplet.push(path);
             }
 
             return (
               <g key={key} transform={`scale(0.3) translate(${item.x},${item.y})`}>
-                <g style={rotateItem}>
+                <g id={`groupItem${key}`} style={rotateItem}>
                   {pathComplet}
                 </g>
               </g>
@@ -146,4 +172,4 @@ class SelectFruit extends Component {
   }
 }
 
-export default SelectFruit;
+export default SelectItem;

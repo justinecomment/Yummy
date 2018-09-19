@@ -11,3 +11,10 @@
   .Container .rondBlanc {
     z-index: 0;
     position: absolute; }
+  .Container button {
+    z-index: 2;
+    position: absolute;
+    bottom: 0;
+    display: flex;
+    width: 100%;
+    text-align: center; }
